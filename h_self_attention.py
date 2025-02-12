@@ -95,7 +95,7 @@ value_2 = x_2 @ W_value
 print("x_2.shape: ", x_2.shape)
 print("W_query.shape: ", W_query.shape)
 print("x_2: ", x_2)
-print("W_query: ", W_query)
+print("W_query: ", W_query) 
 print("query_2: ", query_2)
 
 print("\n################################################################\n")
@@ -109,7 +109,24 @@ print("values: ", values)
 
 print("\n################################################################\n")
 
+keys_2 = keys[1]
+attn_score_22 = query_2.dot(keys_2)
+print(attn_score_22)
 
+print("\n################################################################\n")
 
+attn_scores_2 = query_2 @ keys.T
+print(attn_scores_2)
 
+print("\n################################################################\n")
 
+d_k = keys.shape[-1]
+attn_weights_2 = torch.softmax(attn_scores_2 / d_k**0.5, dim=-1)
+print(attn_weights_2)
+
+print("\n################################################################\n")
+
+context_vec_2 = attn_weights_2 @ values
+print(context_vec_2)
+
+print("\n################################################################\n")
