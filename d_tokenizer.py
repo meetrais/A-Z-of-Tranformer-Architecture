@@ -2,44 +2,46 @@
 #pip install tiktoken
 from importlib.metadata import version
 import tiktoken
-print("tiktoken version:", version("tiktoken"))
 
-tokenizer = tiktoken.get_encoding("gpt2")
-text = (
-"Hello, do you like tea? <|endoftext|> In the sunlit terraces"
-"of someunknownPlace."
-)
-integers = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
-print(integers)
+if __name__ == "__main__":
+    print("tiktoken version:", version("tiktoken"))
 
-strings = tokenizer.decode(integers)
-print(strings)
+    tokenizer = tiktoken.get_encoding("gpt2")
+    text = (
+    "Hello, do you like tea? <|endoftext|> In the sunlit terraces"
+    "of someunknownPlace."
+    )
+    integers = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
+    print(integers)
 
-with open("the-verdict.txt", "r", encoding="utf-8") as f:
-    raw_text = f.read()
+    strings = tokenizer.decode(integers)
+    print(strings)
 
-enc_text = tokenizer.encode(raw_text)
-print(len(enc_text))
+    with open("the-verdict.txt", "r", encoding="utf-8") as f:
+        raw_text = f.read()
 
-enc_sample = enc_text[50:]
-context_size = 4
-x = enc_sample[:context_size]
-y = enc_sample[1:context_size+1]
-print(f"x: {x}")
-print(f"y:{y}")
+    enc_text = tokenizer.encode(raw_text)
+    print(len(enc_text))
 
-for i in range(1, context_size+1):
-    context = enc_sample[:i]
-    desired = enc_sample[i]
-    print(context, "---->", desired)
+    enc_sample = enc_text[50:]
+    context_size = 4
+    x = enc_sample[:context_size]
+    y = enc_sample[1:context_size+1]
+    print(f"x: {x}")
+    print(f"y:{y}")
 
-print('====================================')
+    for i in range(1, context_size+1):
+        context = enc_sample[:i]
+        desired = enc_sample[i]
+        print(context, "---->", desired)
 
-for i in range(1, context_size+1):
-    context = enc_sample[:i]
-    desired = enc_sample[i]
-    print(tokenizer.decode(context), "---->", tokenizer.decode([desired]))
+    print('====================================')
 
-print('====================================')
+    for i in range(1, context_size+1):
+        context = enc_sample[:i]
+        desired = enc_sample[i]
+        print(tokenizer.decode(context), "---->", tokenizer.decode([desired]))
+
+    print('====================================')
 
 

@@ -43,13 +43,14 @@ def print_gradients(model, x):
         if 'weight' in name:
             print(f"{name} has gradient mean of {param.grad.abs().mean().item()}")
 
-print_gradients(model_without_shortcut, sample_input)
-print("\n################################################################\n")
+if __name__ == "__main__":
+    print_gradients(model_without_shortcut, sample_input)
+    print("\n################################################################\n")
 
-torch.manual_seed(123)
-model_with_shortcut = ExampleDeepNeuralNetwork(
-    layer_sizes, use_shortcut=True
-)
-print_gradients(model_with_shortcut, sample_input)
-print("\n################################################################\n")
+    torch.manual_seed(123)
+    model_with_shortcut = ExampleDeepNeuralNetwork(
+        layer_sizes, use_shortcut=True
+    )
+    print_gradients(model_with_shortcut, sample_input)
+    print("\n################################################################\n")
 

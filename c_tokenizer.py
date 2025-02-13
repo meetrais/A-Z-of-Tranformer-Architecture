@@ -17,21 +17,22 @@ class SimpleTokenizerV2:
         text = " ".join([self.int_to_str[i] for i in ids])
         text = re.sub(r'\s+([,.:;?!"()\'])', r'\1', text)
         return text
+    
+if __name__ == "__main__":
+    text1 = "Hello, do you like tea?"
+    text2 = "In the sunlit terraces of the palace."
+    text = " <|endoftext|> ".join((text1, text2))
+    print(text)
 
-text1 = "Hello, do you like tea?"
-text2 = "In the sunlit terraces of the palace."
-text = " <|endoftext|> ".join((text1, text2))
-print(text)
+    vocab, preprocessed, raw_text = a_tokenizer.getVocabulary()
 
-vocab, preprocessed, raw_text = a_tokenizer.getVocabulary()
+    #We will handle unknown words by adding '<|unk|>' token
+    #We will also add '<|endoftext|>' token in the end of every sentence.
+    all_tokens = sorted(list(set(preprocessed)))
+    all_tokens.extend(["<|endoftext|>", "<|unk|>"])
+    vocab = {token:integer for integer,token in enumerate(all_tokens)}
 
-#We will handle unknown words by adding '<|unk|>' token
-#We will also add '<|endoftext|>' token in the end of every sentence.
-all_tokens = sorted(list(set(preprocessed)))
-all_tokens.extend(["<|endoftext|>", "<|unk|>"])
-vocab = {token:integer for integer,token in enumerate(all_tokens)}
+    tokenizer = SimpleTokenizerV2(vocab)
+    print(tokenizer.encode(text))
 
-tokenizer = SimpleTokenizerV2(vocab)
-print(tokenizer.encode(text))
-
-print(tokenizer.decode(tokenizer.encode(text)))
+    print(tokenizer.decode(tokenizer.encode(text)))
