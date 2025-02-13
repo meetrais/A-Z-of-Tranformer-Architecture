@@ -81,9 +81,5 @@ print("\n################################################################\n")
 torch.manual_seed(123)
 print(dropout(attn_weights))
 
-batch = torch.stack((inputs, inputs), dim=0)
-print("\nbatch.shape: ", batch.shape)
-print("\n################################################################\n")
-
 
 
