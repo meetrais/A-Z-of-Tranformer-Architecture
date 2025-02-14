@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-import r_transformer_block as tb
-import p_layernorm_gelu_feedforward as lgf
+from r_transformer_block import TransformerBlock
+from p_layernorm_gelu_feedforward import LayerNorm
 import tiktoken
 
 class GPTModel(nn.Module):
@@ -11,9 +11,9 @@ class GPTModel(nn.Module):
         self.pos_emb = nn.Embedding(cfg["context_length"], cfg["emb_dim"])
         self.drop_emb = nn.Dropout(cfg["drop_rate"])
         self.trf_blocks = nn.Sequential(
-            *[tb.TransformerBlock(cfg) for _ in range(cfg["n_layers"])]
+            *[TransformerBlock(cfg) for _ in range(cfg["n_layers"])]
         )
-        self.final_norm = lgf.LayerNorm(cfg["emb_dim"])
+        self.final_norm = LayerNorm(cfg["emb_dim"])
         self.out_head = nn.Linear(
             cfg["emb_dim"], cfg["vocab_size"], bias=False
         )
