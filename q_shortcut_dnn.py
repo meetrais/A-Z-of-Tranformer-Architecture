@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import p_layernorm_gelu_feedforward_deep_dive as p
+import p_layernorm_gelu_feedforward as p
 
 class ExampleDeepNeuralNetwork(nn.Module):
     def __init__(self, layer_sizes, use_shortcut):
