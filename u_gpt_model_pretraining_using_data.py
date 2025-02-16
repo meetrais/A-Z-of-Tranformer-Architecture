@@ -86,9 +86,9 @@ def train_model_simple(model, train_loader, val_loader,
                       f"Train loss {train_loss:.3f}, "
                       f"Val loss {val_loss:.3f}"
                 )
-                generate_and_print_sample(
-                    model, tokenizer, device, start_context
-                )
+        generate_and_print_sample(
+            model, tokenizer, device, start_context
+        )
     return train_losses, val_losses, track_tokens_seen
 
 def print_sampled_tokens(probas):
