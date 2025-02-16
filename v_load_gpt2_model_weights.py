@@ -3,6 +3,7 @@ import urllib.request
 import numpy as np
 import tiktoken
 from s_gpt_model import GPTModel
+from gpt_download import download_and_load_gpt2
 from t_gpt_model_pretraining import text_to_token_ids, token_ids_to_text
 from u_gpt_model_pretraining_using_data import generate
 
@@ -97,10 +98,24 @@ if __name__ == "__main__":
     model.load_state_dict(checkpoint["model_state_dict"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4, weight_decay=0.1)
     optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    model.to(device)
     model.train()
+    torch.manual_seed(123)
+    tokenizer = tiktoken.get_encoding("gpt2")
+    token_ids = generate(
+        model=model,
+        idx=text_to_token_ids("Every effort moves you", tokenizer).to(device),
+        max_new_tokens=25,
+        context_size=GPT_CONFIG_124M["context_length"],
+        top_k=30,
+        temperature=0.5
+    )
+    #Still returns garbage output.
+    print("Model output text:\n", token_ids_to_text(token_ids, tokenizer))
+    print("\n##############################################\n")
 
+    #Download GPT2 model weights
     #Run pip install tensorflow>=2.15.0 tqdm>=4.66
-
     url = (
         "https://raw.githubusercontent.com/rasbt/"
         "LLMs-from-scratch/main/ch05/"
@@ -108,7 +123,6 @@ if __name__ == "__main__":
     )
     filename = url.split('/')[-1]
     urllib.request.urlretrieve(url, filename)
-    from gpt_download import download_and_load_gpt2
     settings, params = download_and_load_gpt2(
         model_size="124M", 
         models_dir="gpt2"
@@ -151,8 +165,8 @@ if __name__ == "__main__":
         idx=text_to_token_ids("Every effort moves you", tokenizer).to(device),
         max_new_tokens=25,
         context_size=NEW_CONFIG["context_length"],
-        top_k=50,
-        temperature=1.5
+        top_k=30,
+        temperature=0.5
     )
     #Quite impressive output, because we used Gpt2 model weights to generate text.
-    print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+    print("GPT model output text:\n", token_ids_to_text(token_ids, tokenizer))
