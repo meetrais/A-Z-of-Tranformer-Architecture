@@ -37,7 +37,7 @@ class MultiHeadAttention(nn.Module):
         attn_weights = self.dropout(attn_weights)
         context_vec = (attn_weights @ values).transpose(1, 2)
         context_vec = context_vec.contiguous().view(
-        b, num_tokens, self.d_out
+            b, num_tokens, self.d_out
         )
         context_vec = self.out_proj(context_vec)
         return context_vec

@@ -18,6 +18,7 @@ def getVocabulary():
     vocab = {token:integer for integer,token in enumerate(all_words)}
 
     return vocab, preprocessed, raw_text
+
 if __name__ == "__main__":
     vocab, preprocessed, raw_text = getVocabulary()
     print("Total number of character:", len(raw_text))
