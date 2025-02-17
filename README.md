@@ -1,4 +1,4 @@
-# Build LLM From Scratch - Work In Progress... 
+# Build LLM From Scratch
 
 ## Overview 
 
